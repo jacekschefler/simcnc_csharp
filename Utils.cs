@@ -31,3 +31,16 @@ enum State
     MDI = 5,
     MPG = 6
 }
+
+
+public abstract record ResultA
+{
+    ResultA(){ }
+    public sealed record IntResult(int Result): ResultA;
+    public sealed record StringResult(string Result): ResultA;
+    public sealed record BoolResult(bool Result): ResultA;
+    public sealed record DoubleResult(double Result): ResultA;
+
+
+}
+

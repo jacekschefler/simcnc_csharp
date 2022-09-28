@@ -19,7 +19,7 @@ public class Comm
     int len;
     string lenStr = string.Empty;
     bool lenReady;
-    int crc;
+    ulong crc;
     string crcStr = string.Empty;
     bool crcReady;
     string datagram = string.Empty;
@@ -83,7 +83,11 @@ public class Comm
     private bool CheckCRC(byte[] s)
     {
         var result = Crc32.Hash(Encoding.UTF8.GetBytes(Encoding.UTF8.GetString(s).Length.ToString() + ":" + Encoding.UTF8.GetString(s)));
-        int v = BitConverter.ToInt32(result, 0);
+        var v = BitConverter.ToUInt32(result, 0);
+        //Console.WriteLine(v);
+        //Console.WriteLine(crc);
+        //Console.WriteLine(crc & 0xffffffff);
+
         return v == (crc & 0xffffffff);
     }
 
@@ -98,7 +102,7 @@ public class Comm
             {
                 crcReady = true;
 
-                var result = int.TryParse(crcStr, System.Globalization.NumberStyles.HexNumber, NumberFormatInfo.CurrentInfo, out crc);
+                var result = ulong.TryParse(crcStr, NumberStyles.HexNumber, NumberFormatInfo.CurrentInfo, out crc);
                 if (!result)
                 {
                     Console.WriteLine(crcStr);
